@@ -7,11 +7,11 @@ import dedent from 'dedent-tabs';
 
 // Marked.js adds line returns after closing tags on some default tokens.
 // This removes those line returns for comparison sake.
-String.prototype.trimReturns = function(){
+String.prototype.trimReturns = function() {
 	return this.replace(/\r?\n|\r/g, '').trim();
 };
 
-renderAllPages = function(pages){
+const renderAllPages = function(pages) {
 	const outputs = [];
 	pages.forEach((page, index)=>{
 		setMarkedVariablePage(index);
@@ -22,7 +22,7 @@ renderAllPages = function(pages){
 	return outputs;
 };
 
-beforeEach(() => {
+beforeEach(()=>{
 	Markdown.setOptions(Markdown.getDefaults());
 	Markdown.use(markedVariables());
 });
@@ -299,7 +299,7 @@ describe('Code blocks', ()=>{
 
 describe('Normal Links and Images', ()=>{
 	it('Renders normal images', function() {
-		const source = `![alt text](url)`;
+		const source = '![alt text](url)';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
@@ -311,7 +311,7 @@ describe('Normal Links and Images', ()=>{
 	});
 
 	it('Applies curly injectors to images', function() {
-		const source = `![alt text](url){width:100px}`;
+		const source = '![alt text](url){width:100px}';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
@@ -331,48 +331,48 @@ describe('Normal Links and Images', ()=>{
 
 describe('Cross-page variables', ()=>{
 	it('Handles variable assignment and recall across pages', function() {
-		const source0 = `[var]: string`;
-		const source1 = `$[var]`;
+		const source0 = '[var]: string';
+		const source1 = '$[var]';
 		const rendered = renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Handles hoisting across pages', function() {
-		const source0 = `$[var]`;
-		const source1 = `[var]: string`;
-		renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();	//Requires one full render of document before hoisting is picked up
+		const source0 = '$[var]';
+		const source1 = '[var]: string';
+		renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();	// Requires one full render of document before hoisting is picked up
 		const rendered = renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Handles reassignment and hoisting across pages', function() {
-		const source0 = `$[var]\n\n[var]: one\n\n$[var]`;
-		const source1 = `[var]: two\n\n$[var]`;
-		renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();	//Requires one full render of document before hoisting is picked up
+		const source0 = '$[var]\n\n[var]: one\n\n$[var]';
+		const source1 = '[var]: two\n\n$[var]';
+		renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();	// Requires one full render of document before hoisting is picked up
 		const rendered = renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Page numbering across pages : default', function() {
-		const source0 = `$[HB_pageNumber]\n\n`;
-		const source1 = `$[HB_pageNumber]\n\n`;
-		renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();	//Requires one full render of document before hoisting is picked up
+		const source0 = '$[HB_pageNumber]\n\n';
+		const source1 = '$[HB_pageNumber]\n\n';
+		renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();	// Requires one full render of document before hoisting is picked up
 		const rendered = renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Page numbering across pages : custom page number (Number)', function() {
-		const source0 = `[HB_pageNumber]:100\n\n$[HB_pageNumber]\n\n`;
-		const source1 = `$[HB_pageNumber]\n\n`;
-		renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();	//Requires one full render of document before hoisting is picked up
+		const source0 = '[HB_pageNumber]:100\n\n$[HB_pageNumber]\n\n';
+		const source1 = '$[HB_pageNumber]\n\n';
+		renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();	// Requires one full render of document before hoisting is picked up
 		const rendered = renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Page numbering across pages : custom page number (NaN)', function() {
-		const source0 = `[HB_pageNumber]:a\n\n$[HB_pageNumber]\n\n`;
-		const source1 = `$[HB_pageNumber]\n\n`;
-		renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();	//Requires one full render of document before hoisting is picked up
+		const source0 = '[HB_pageNumber]:a\n\n$[HB_pageNumber]\n\n';
+		const source1 = '$[HB_pageNumber]\n\n';
+		renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();	// Requires one full render of document before hoisting is picked up
 		const rendered = renderAllPages([source0, source1]).join('\n\\page\n').trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
@@ -398,13 +398,13 @@ describe('Math function parameter handling', ()=>{
 
 describe('Variable names that are subsets of other names', ()=>{
 	it('do not conflict with function names', function() {
-		const source = `[a]: -1\n\n$[abs(a)]`;
+		const source = '[a]: -1\n\n$[abs(a)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('do not conflict with other variable names', function() {
-		const source = `[ab]: 2\n\n[aba]: 8\n\n[ba]: 4\n\n$[ab + aba + ba]`;
+		const source = '[ab]: 2\n\n[aba]: 8\n\n[ba]: 4\n\n$[ab + aba + ba]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
@@ -412,31 +412,31 @@ describe('Variable names that are subsets of other names', ()=>{
 
 describe('Regression Tests', ()=>{
 	it('Don\'t Eat all the parentheticals!', function() {
-		const source='\n|  title 1  | title 2 | title 3 | title 4|\n|-----------|---------|---------|--------|\n|[foo](bar) |  Ipsum  |    )    |   )    |\n';
+		const source = '\n|  title 1  | title 2 | title 3 | title 4|\n|-----------|---------|---------|--------|\n|[foo](bar) |  Ipsum  |    )    |   )    |\n';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
-	it('Handle Extra spaces in image alt-text 1', function(){
-		const source='![ where is my image??](http://i.imgur.com/hMna6G0.png)';
+	it('Handle Extra spaces in image alt-text 1', function() {
+		const source = '![ where is my image??](http://i.imgur.com/hMna6G0.png)';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
-	it('Handle Extra spaces in image alt-text 2', function(){
-		const source='![where  is my image??](http://i.imgur.com/hMna6G0.png)';
+	it('Handle Extra spaces in image alt-text 2', function() {
+		const source = '![where  is my image??](http://i.imgur.com/hMna6G0.png)';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
-	it('Handle Extra spaces in image alt-text 3', function(){
-		const source='![where is my image?? ](http://i.imgur.com/hMna6G0.png)';
+	it('Handle Extra spaces in image alt-text 3', function() {
+		const source = '![where is my image?? ](http://i.imgur.com/hMna6G0.png)';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
-	it('Handle Extra spaces in image alt-text 4', function(){
-		const source='![where is my image??](http://i.imgur.com/hMna6G0.png){height=20%,width=20%}';
+	it('Handle Extra spaces in image alt-text 4', function() {
+		const source = '![where is my image??](http://i.imgur.com/hMna6G0.png){height=20%,width=20%}';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
@@ -444,73 +444,73 @@ describe('Regression Tests', ()=>{
 
 describe('Custom Math Function Tests', ()=>{
 	it('Sign Test', function() {
-		const source = `[a]: 13\n\n[b]: -11\n\nPositive: $[sign(a)]\n\nNegative: $[sign(b)]`;
+		const source = '[a]: 13\n\n[b]: -11\n\nPositive: $[sign(a)]\n\nNegative: $[sign(b)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Signed Test', function() {
-		const source = `[a]: 13\n\n[b]: -11\n\nPositive: $[signed(a)]\n\nNegative: $[signed(b)]`;
+		const source = '[a]: 13\n\n[b]: -11\n\nPositive: $[signed(a)]\n\nNegative: $[signed(b)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Roman Numerals Test', function() {
-		const source = `[a]: 18\n\nRoman Numeral: $[toRomans(a)]`;
+		const source = '[a]: 18\n\nRoman Numeral: $[toRomans(a)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Roman Numerals Test - Uppercase', function() {
-		const source = `[a]: 18\n\nRoman Numeral: $[toRomansUpper(a)]`;
+		const source = '[a]: 18\n\nRoman Numeral: $[toRomansUpper(a)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Roman Numerals Test - Lowercase', function() {
-		const source = `[a]: 18\n\nRoman Numeral: $[toRomansLower(a)]`;
+		const source = '[a]: 18\n\nRoman Numeral: $[toRomansLower(a)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Number to Characters Test', function() {
-		const source = `[a]: 18\n\n[b]: 39\n\nCharacters: $[toChar(a)] $[toChar(b)]`;
+		const source = '[a]: 18\n\n[b]: 39\n\nCharacters: $[toChar(a)] $[toChar(b)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Number to Characters Test - Uppercase', function() {
-		const source = `[a]: 18\n\n[b]: 39\n\nCharacters: $[toCharUpper(a)] $[toCharUpper(b)]`;
+		const source = '[a]: 18\n\n[b]: 39\n\nCharacters: $[toCharUpper(a)] $[toCharUpper(b)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Number to Characters Test - Lowercase', function() {
-		const source = `[a]: 18\n\n[b]: 39\n\nCharacters: $[toCharLower(a)] $[toCharLower(b)]`;
+		const source = '[a]: 18\n\n[b]: 39\n\nCharacters: $[toCharLower(a)] $[toCharLower(b)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Number to Words Test', function() {
-		const source = `[a]: 80085\n\nWords: $[toWords(a)]`;
+		const source = '[a]: 80085\n\nWords: $[toWords(a)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Number to Words Test - Uppercase', function() {
-		const source = `[a]: 80085\n\nWords: $[toWordsUpper(a)]`;
+		const source = '[a]: 80085\n\nWords: $[toWordsUpper(a)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Number to Words Test - Lowercase', function() {
-		const source = `[a]: 80085\n\nWords: $[toWordsLower(a)]`;
+		const source = '[a]: 80085\n\nWords: $[toWordsLower(a)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
 
 	it('Number to Words Test - Capitalized', function() {
-		const source = `[a]: 80085\n\nWords: $[toWordsCaps(a)]`;
+		const source = '[a]: 80085\n\nWords: $[toWordsCaps(a)]';
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
