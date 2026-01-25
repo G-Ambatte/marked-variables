@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/naturalcrit/marked-variables#readme",
   "peerDependencies": {
-    "marked": ">=3 <17"
+    "marked": ">=3 <18"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
