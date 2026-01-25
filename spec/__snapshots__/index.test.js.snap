@@ -20,6 +20,8 @@ exports[`Block-level variables Hoists last instance of variable 1`] = `"<p>new s
 
 exports[`Block-level variables Hoists undefined variables 1`] = `"<p>string</p>"`;
 
+exports[`Block-level variables Ignores assignment syntax ([var] + colon) that is not at the line start 1`] = `"<h3>Original value:This is not a valid assignment</h3> <p>Original value</p>"`;
+
 exports[`Block-level variables Ignores undefined variables that can't be hoisted 1`] = `"<p>My name is $[first] Jones</p>"`;
 
 exports[`Code blocks Ignores all variables in fenced code blocks 1`] = `"<pre><code>[var]: string$[var]$[var](new string)</code></pre>"`;
@@ -63,6 +65,14 @@ exports[`Custom Math Function Tests Roman Numerals Test 1`] = `"<p>Roman Numeral
 exports[`Custom Math Function Tests Sign Test 1`] = `"<p>Positive: +</p><p>Negative: -</p>"`;
 
 exports[`Custom Math Function Tests Signed Test 1`] = `"<p>Positive: +13</p><p>Negative: -11</p>"`;
+
+exports[`External Variable Injection Supports numbers 1`] = `"<p>From outside: 42</p>"`;
+
+exports[`External Variable Injection Supports numbers as links 1`] = `"<p>From outside: <a href="42">externalVar</a></p>"`;
+
+exports[`External Variable Injection Supports strings 1`] = `"<p>From outside: Hello from outside!</p>"`;
+
+exports[`External Variable Injection Supports strings as links 1`] = `"<p>From outside: <a href="Hello">externalVar</a></p>"`;
 
 exports[`Inline-level variables Handles variable assignment and recall with simple text 1`] = `"<p>string</p><p>string</p>"`;
 
