@@ -1,4 +1,4 @@
-import { marked as Markdown} from 'marked';
+import { marked as Markdown } from 'marked';
 import { markedVariables, setMarkedVariable, setMarkedVariablePage }  from 'marked-variables';
 import dedent from 'dedent-tabs';
 
@@ -543,5 +543,5 @@ describe('External Variable Injection', ()=>{
 		const source = `From outside: [externalVar]`;
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
-	})
+	});
 });

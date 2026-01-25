@@ -101,7 +101,7 @@ const normalizeVarNames = (label)=>{
 };
 
 const replaceVar = function(prefix, label, allowUnresolved = false) {
-// ╔═════════════════════════< HANDLE MATH >═════════════════════════╗ //
+	// ╔═════════════════════════< HANDLE MATH >═════════════════════════╗ //
 	const mathRegex = /[a-z]+\(|[+\-*/^(),]/g;
 	const matches = label.split(mathRegex);
 	const mathVars = matches.filter((match)=>isNaN(match))?.map((s)=>s.trim()); // Capture any variable names
@@ -122,7 +122,7 @@ const replaceVar = function(prefix, label, allowUnresolved = false) {
 			return undefined; // Return undefined if invalid math result
 		}
 	}
-// ╚═════════════════════════════════════════════════════════════════╝ //
+	// ╚═════════════════════════════════════════════════════════════════╝ //
 
 	const foundVar = lookupVar(label, globalPageNumber);
 
