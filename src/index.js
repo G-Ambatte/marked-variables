@@ -8,7 +8,7 @@ let globalPageNumber = 0;
 
 // Regex
 //                    url or <url>            "title"    or   'title'     or  (title)
-const linkRegex = /^([^<\s][^\s]*|<.*?>)(?: ("(?:\\"|[^"])*"|'(?:\\'|[^'])*'|\((?:\\\(|\\\)|[^()])*\)))?$/m;
+const linkRegex    = /^([^<\s][^\s]*|<.*?>)(?: ("(?:\\"|[^"])*"|'(?:\\'|[^'])*'|\((?:\\\(|\\\)|[^()])*\)))?$/m;
 const varCallRegex = /([!$]?)\[((?!\s*\])(?:\\.|[^\[\]\\])+)\]/g; // Matches [var] or ![var] or $[var]
 
 // Limit math features to simple items
@@ -101,7 +101,7 @@ const normalizeVarNames = (label)=>{
 };
 
 const replaceVar = function(prefix, label, allowUnresolved = false) {
-	// v=====--------------------< HANDLE MATH >-------------------=====v//
+	// ╔═════════════════════════< HANDLE MATH >═════════════════════════╗ //
 	const mathRegex = /[a-z]+\(|[+\-*/^(),]/g;
 	const matches = label.split(mathRegex);
 	const mathVars = matches.filter((match)=>isNaN(match))?.map((s)=>s.trim()); // Capture any variable names
@@ -119,17 +119,17 @@ const replaceVar = function(prefix, label, allowUnresolved = false) {
 			return mathParser.evaluate(replacedLabel);
 		}
 		catch (error) {
-			return undefined;		// Return undefined if invalid math result
+			return undefined; // Return undefined if invalid math result
 		}
 	}
-	// ^=====--------------------< HANDLE MATH >-------------------=====^//
+	// ╚═════════════════════════════════════════════════════════════════╝ //
 
 	const foundVar = lookupVar(label, globalPageNumber);
 
 	if(!foundVar || (!foundVar.resolved && !allowUnresolved))
-		return undefined;			// Return undefined if not found, or parially-resolved vars are not allowed
+		return undefined; // Return undefined if not found, or parially-resolved vars are not allowed
 
-	if(prefix[0] == '$') // Variable <================================
+	if(prefix[0] == '$')          // Variable <================================
 		return foundVar.content;
 
 	const linkMatch = foundVar.content.match(linkRegex);
@@ -251,6 +251,9 @@ export function markedVariables() {
 								content : src.slice(lastIndex, match.index)
 							});
 					}
+					if(!isLineStart && match[5]) { // Invalid block definition (not at line start), need to rewind lastIndex
+						combinedRegex.lastIndex = combinedRegex.lastIndex - (match[5].length + 1); //+1 to handle the :
+					}
 					if(match[1]) {
 						varsQueue.push(
 							{ type    : 'text',
@@ -333,7 +336,7 @@ export function setMarkedVariable(name, content, page=0) {
 	if(page < 0) return;
 	if(!globalVarsList[ page ]) globalVarsList[ page ] = {};
 	globalVarsList[ page ][ name ] = {
-		content  : content,
+		content  : content.toString(),
 		resolved : true,
 		external : true
 	};

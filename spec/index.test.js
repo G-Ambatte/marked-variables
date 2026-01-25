@@ -1,5 +1,5 @@
 import { marked as Markdown } from 'marked';
-import { markedVariables, setMarkedVariablePage } from 'marked-variables';
+import { markedVariables, setMarkedVariable, setMarkedVariablePage }  from 'marked-variables';
 import dedent from 'dedent-tabs';
 
 // Adding `.failing()` method to `describe` or `it` will make failing tests "pass" as long as they continue to fail.
@@ -146,6 +146,17 @@ describe('Block-level variables', ()=>{
 			$[var](My name is $[first] $[last])
 
 			$[last]: Jones`;
+		const rendered = Markdown(source).replace(/\s/g, ' ').trimReturns();
+		expect(rendered).toMatchSnapshot();
+	});
+
+	it('Ignores assignment syntax ([var] + colon) that is not at the line start', function() {
+		const source = dedent`
+			[Hello]:Original value
+
+			### $[Hello]:This is not a valid assignment
+
+			$[Hello]`;
 		const rendered = Markdown(source).replace(/\s/g, ' ').trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
@@ -500,6 +511,36 @@ describe('Custom Math Function Tests', ()=>{
 
 	it('Number to Words Test - Capitalized', function() {
 		const source = '[a]: 80085\n\nWords: $[toWordsCaps(a)]';
+		const rendered = Markdown(source).trimReturns();
+		expect(rendered).toMatchSnapshot();
+	});
+});
+
+describe('External Variable Injection', ()=>{
+	it('Supports strings', function() {
+		setMarkedVariable('externalVar', 'Hello from outside!');
+		const source = `From outside: $[externalVar]`;
+		const rendered = Markdown(source).trimReturns();
+		expect(rendered).toMatchSnapshot();
+	});
+
+	it('Supports strings as links', function() {
+		setMarkedVariable('externalVar', 'Hello');
+		const source = `From outside: [externalVar]`;
+		const rendered = Markdown(source).trimReturns();
+		expect(rendered).toMatchSnapshot();
+	});
+
+	it('Supports numbers', function() {
+		setMarkedVariable('externalVar', Number(42));
+		const source = `From outside: $[externalVar]`;
+		const rendered = Markdown(source).trimReturns();
+		expect(rendered).toMatchSnapshot();
+	});
+
+	it('Supports numbers as links', function() {
+		setMarkedVariable('externalVar', Number(42));
+		const source = `From outside: [externalVar]`;
 		const rendered = Markdown(source).trimReturns();
 		expect(rendered).toMatchSnapshot();
 	});
