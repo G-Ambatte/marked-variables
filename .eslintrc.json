@@ -30,7 +30,7 @@
 
     /** Fixable **/
     "arrow-parens": ["warn", "always"],
-    "brace-style": ["warn", "1tbs", { "allowSingleLine": true }],
+    "brace-style": ["warn", "stroustrup", { "allowSingleLine": true }],
     "no-var": "warn",
     "prefer-const": "warn",
     "prefer-template": "warn",
