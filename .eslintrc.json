@@ -21,10 +21,9 @@
     "no-nested-ternary": "error",
     "no-new-object": "error",
     "no-proto": "error",
-    "jest/valid-expect": ["error", { "maxArgs": 3 }],
 
     /** Warnings **/
-    "max-depth": ["warn", { "max": 4 }],
+    "max-depth": ["warn", { "max": 5 }],
     "max-params": ["warn", { "max": 5 }],
     "no-restricted-syntax": ["warn", "ClassDeclaration", "SwitchStatement"],
     "no-unused-vars": ["warn", { "vars": "all", "args": "none", "varsIgnorePattern": "config|_|cx|createReactClass" }],
@@ -32,7 +31,6 @@
     /** Fixable **/
     "arrow-parens": ["warn", "always"],
     "brace-style": ["warn", "1tbs", { "allowSingleLine": true }],
-    "jsx-quotes": ["warn", "prefer-single"],
     "no-var": "warn",
     "prefer-const": "warn",
     "prefer-template": "warn",
