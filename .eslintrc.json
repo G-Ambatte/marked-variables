@@ -26,7 +26,7 @@
     "max-depth": ["warn", { "max": 5 }],
     "max-params": ["warn", { "max": 5 }],
     "no-restricted-syntax": ["warn", "ClassDeclaration", "SwitchStatement"],
-    "no-unused-vars": ["warn", { "vars": "all", "args": "none", "varsIgnorePattern": "config|_|cx|createReactClass" }],
+    "no-unused-vars": ["warn", { "vars": "all", "args": "none" }],
 
     /** Fixable **/
     "arrow-parens": ["warn", "always"],
