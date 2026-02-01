@@ -158,6 +158,20 @@ const lookupVar = function(label, index) {
 		index--;
 	}
 
+	// Normal lookup has failed, attempt to resolve multiple labels into individuals
+	if(label?.trim().indexOf(' ') > 0){
+		const labels = label.split(' ');
+		const outputStrings = labels.map((string)=>{
+			console.log(string);
+			return lookupVar(string, index)?.content || string;
+		});
+		console.log(outputStrings);
+		return {
+			content  : outputStrings.join(' '),
+			resolved : true
+		};
+	}
+
 	return undefined;
 };
 
