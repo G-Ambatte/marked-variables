@@ -162,7 +162,6 @@ const lookupVar = function(label, index) {
 	if(label?.trim().indexOf(' ') > 0){
 		const labels = label.split(' ');
 		const outputStrings = labels.map((string)=>{
-			console.log(string);
 			return lookupVar(string, index)?.content || string;
 		});
 		console.log(outputStrings);
